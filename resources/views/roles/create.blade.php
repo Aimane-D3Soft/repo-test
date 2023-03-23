@@ -20,17 +20,7 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <h2>Liste des permissions</h2>
-                    @foreach ($permissions as $permission)    
-                        <label for="permissions">{{ $permission->name }}</label>
-                        <input 
-                            type="checkbox" 
-                            name="permissions[]" 
-                            id="permissions" 
-                            class="permissions"
-                            value="{{$permission->id}}"
-                        />
-                        <br>
-                    @endforeach
+                    <div id="group-permission"></div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <button type="submit" class="btn btn-primary">Valider</button>
@@ -105,32 +95,23 @@
                         }
                     })
                 })
+                $.get('/permissions/'+ user_id, function (data) {
+                    // console.log(data.user_groups);
+                    $('#group-permission').html('');
+                    $.each(data.permissions, function(x,y){
+                        if(data.user_permissions.includes(y.id)){
+                            $('#group-permission').append(
+                                '<label class="me-2">'+y.name+'</label><input type="checkbox" value="'+y.id+'" checked name="permissions[]"/><br>'
+                            );
+                        }else{
+                            $('#group-permission').append(
+                                '<label class="me-2">'+y.name+'</label><input type="checkbox" value="'+y.id+'" name="permissions[]"/><br>'
+                            );
+                        }
+                    })
+                })
             })
             $('#users').trigger('change')
-            // $('#users').change(function(event){
-            //     $.ajaxSetup({
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         }
-            //     });
-            //     let user_id = $(this).val();
-            //     console.log(user_id);
-            //     $('.permissions').each(function() {
-            //         let product_id = $(this).val();
-            //         $.ajax({
-            //             url: '/check-permission',
-            //             type: 'GET',
-            //             data: { user_id: user_id, product_id: product_id },
-            //             success: function(data) {
-            //                 if (data.exists) {
-            //                     $(this).prop('checked', true);
-            //                 } else {
-            //                     $(this).prop('checked', false);
-            //                 }
-            //             }
-            //         });
-            //     });
-            // })
         });
     </script>
 @endsection

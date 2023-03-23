@@ -6,9 +6,9 @@
     <div class="container">
         <div class="d-flex align-items-center mt-5 justify-content-center">
             <h1 class="text-center">List des produits</h1>
-            {{-- @if (Auth::user()->hasGroup('Administrateur')) --}}
+            @if (Auth::user()->hasGroup('Modérateur'))
                 <a href="{{url('/product')}}" class="ms-5"><i class="fa-solid fa-plus fs-2 text-success"></i></a>
-            {{-- @endif --}}
+            @endif
             {{-- @if (Auth::user()->hasPermission('créer-produit'))
                 <a href="{{url('/product')}}" class="ms-5"><i class="fa-solid fa-plus fs-2 text-success"></i></a>
             @endif --}}

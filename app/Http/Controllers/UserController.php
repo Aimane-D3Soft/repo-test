@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Junges\ACL\Models\Group;
 use Junges\ACL\Models\Permission;
 use Illuminate\Support\Facades\Authorization;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
@@ -44,11 +45,11 @@ public function createRoles(Request $request){
         $user = User::find($request->input('users'));
         if($request->input('groups')){
             $group = $request->input('groups');
-            $user->assignGroup($group);
+            $user->syncGroups($group);
         }
         if($request->input('permissions')){
             $permission = $request->input('permissions');
-            $user->assignPermission($permission);
+            $user->syncPermissions($permission);
         }
         return redirect('/roles/create');
     }
@@ -72,13 +73,22 @@ public function createRoles(Request $request){
         $group->assignPermission($permission);
         return redirect('/roles/create');
     }
-    public function showPermission($id)
+    public function showGroup($id)
     {
         $group = Group::find($id);
         $permissions = Permission::all();
         return response()->json([
             'group_permissions' => $group->permissions->pluck('id')->toArray(),
             'permissions' => $permissions
+        ]);
+    }
+    public function showPermission($id)
+    {
+        $user = User::with('permissions')->find($id);
+        $permissions = Permission::all();
+        return response()->json([
+            'user_permissions' => $user->permissions->pluck('id')->toArray(),
+            'permissions' => $permissions,
         ]);
     }
 }

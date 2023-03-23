@@ -47,7 +47,8 @@ Route::group(['middleware' =>'auth'], function(){
     Route::post('/group-permssion', [UserController::class, 'createGroupPermssion'])->name('group_permissions');
     Route::get('test', [UserController::class, 'index']);
     Route::get('/create/{id}', [UserController::class, 'show']);
-    Route::get('/get-group/{id}', [UserController::class, 'showPermission']);
+    Route::get('/get-group/{id}', [UserController::class, 'showGroup']);
+    Route::get('/permissions/{id}', [UserController::class, 'showPermission']);
     Route::get('/check-permission', [UserController::class, 'permission']);    
 
     Route::controller(UserController::class)->group(function (){
