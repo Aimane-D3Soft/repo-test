@@ -1,0 +1,14 @@
+table{
+    background-color: black;
+    color: white;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.3rem;
+}
+table td, table tr{
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+}
+table tr:nth-child(even){
+    background-color: #0e0e0e
+}
